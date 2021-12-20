@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="aesFile2" />
+		<Option title="aesFile" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/aesFile2" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/aesFile" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/aesFile2" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/aesFile" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -34,7 +34,7 @@
 		</Compiler>
 		<Unit filename="aes.cpp" />
 		<Unit filename="aes.h" />
-		<Unit filename="aesFile2.cpp" />
+		<Unit filename="aesFile.cpp" />
 		<Unit filename="csha256.cc" />
 		<Unit filename="csha256.h" />
 		<Unit filename="sha256.c">

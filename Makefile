@@ -27,7 +27,7 @@ LIB_DEBUG = $(LIB)
 LDFLAGS_DEBUG = $(LDFLAGS)
 OBJDIR_DEBUG = obj/Debug
 DEP_DEBUG = 
-OUT_DEBUG = bin/Debug/aesFile2
+OUT_DEBUG = bin/Debug/aesFile
 
 INC_RELEASE = $(INC)
 CFLAGS_RELEASE = $(CFLAGS) -O2
@@ -38,11 +38,11 @@ LIB_RELEASE = $(LIB)
 LDFLAGS_RELEASE = $(LDFLAGS) -s
 OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
-OUT_RELEASE = bin/Release/aesFile2
+OUT_RELEASE = bin/Release/aesFile
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/aes.o $(OBJDIR_DEBUG)/aesFile2.o $(OBJDIR_DEBUG)/csha256.o $(OBJDIR_DEBUG)/sha256.o $(OBJDIR_DEBUG)/strlcpy.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/aes.o $(OBJDIR_DEBUG)/aesFile.o $(OBJDIR_DEBUG)/csha256.o $(OBJDIR_DEBUG)/sha256.o $(OBJDIR_DEBUG)/strlcpy.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/aes.o $(OBJDIR_RELEASE)/aesFile2.o $(OBJDIR_RELEASE)/csha256.o $(OBJDIR_RELEASE)/sha256.o $(OBJDIR_RELEASE)/strlcpy.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/aes.o $(OBJDIR_RELEASE)/aesFile.o $(OBJDIR_RELEASE)/csha256.o $(OBJDIR_RELEASE)/sha256.o $(OBJDIR_RELEASE)/strlcpy.o
 
 all: debug release
 
@@ -62,8 +62,8 @@ out_debug: before_debug $(OBJ_DEBUG) $(DEP_DEBUG)
 $(OBJDIR_DEBUG)/aes.o: aes.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c aes.cpp -o $(OBJDIR_DEBUG)/aes.o
 
-$(OBJDIR_DEBUG)/aesFile2.o: aesFile2.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c aesFile2.cpp -o $(OBJDIR_DEBUG)/aesFile2.o
+$(OBJDIR_DEBUG)/aesFile.o: aesFile.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c aesFile.cpp -o $(OBJDIR_DEBUG)/aesFile.o
 
 $(OBJDIR_DEBUG)/csha256.o: csha256.cc
 	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c csha256.cc -o $(OBJDIR_DEBUG)/csha256.o
@@ -93,8 +93,8 @@ out_release: before_release $(OBJ_RELEASE) $(DEP_RELEASE)
 $(OBJDIR_RELEASE)/aes.o: aes.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c aes.cpp -o $(OBJDIR_RELEASE)/aes.o
 
-$(OBJDIR_RELEASE)/aesFile2.o: aesFile2.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c aesFile2.cpp -o $(OBJDIR_RELEASE)/aesFile2.o
+$(OBJDIR_RELEASE)/aesFile.o: aesFile.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c aesFile.cpp -o $(OBJDIR_RELEASE)/aesFile.o
 
 $(OBJDIR_RELEASE)/csha256.o: csha256.cc
 	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c csha256.cc -o $(OBJDIR_RELEASE)/csha256.o
