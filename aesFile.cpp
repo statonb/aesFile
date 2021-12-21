@@ -13,6 +13,8 @@
 #define AES_IV_LEN          (16)
 #define DEFAULT_BLOCK_LEN   (16)                // The size of the user data in the message must be a multiple of 16
 
+const char versionString[] = "1.0.0  2021-12-21";
+
 uint8_t initializationVector[AES_IV_LEN] = {0x2D, 0x51, 0x8E, 0x1F, 0x56, 0x08, 0x57, 0x27, 0xA7, 0x05, 0xD4, 0xD0, 0x52, 0x82, 0x77, 0x75};
 uint8_t aesKey[AES_KEYLEN] = {0xA3, 0x97, 0xA2, 0x55, 0x53, 0xBE, 0xF1, 0xFC, 0xF9, 0x79, 0x6B, 0x52, 0x14, 0x13, 0xE9, 0xE2};
 char passCode[256] = "hello";
@@ -53,14 +55,14 @@ void usage(const char *prog, const char *extraLine = (const char *)(NULL));
 
 void usage(const char *prog, const char *extraLine)
 {
+    fprintf(stderr, "%s: %s\n", prog, versionString);
     fprintf(stderr, "usage: %s <options>\n", prog);
     fprintf(stderr, "-i --input  filename    Input file\n");
     fprintf(stderr, "-o --output filename    Output file\n");
     fprintf(stderr, "-O --OUTPUT filename    Output file (overwrite)\n");
     fprintf(stderr, "-e --encrypt            Encrypt\n");
     fprintf(stderr, "-d --decrypt            Decrypt\n");
-    fprintf(stderr, "-s --seed   filename    Seed file\n");
-    fprintf(stderr, "-n --blocklen  N        Block length.  Multiple of 16  Default = 16\n");
+    fprintf(stderr, "-q --quiet              Error printout only\n");
     if (extraLine)
         fprintf(stderr, "\n%s\n", extraLine);
 }
@@ -90,6 +92,7 @@ int main(int argc, char *argv[])
     bool encryptFlag = false;
     bool decryptFlag = false;
     bool outputOverwrite = false;
+    bool quietFlag = false;
     uint8_t *pBuf;               // The encryption and decryption is performed in-place
     fileHeader_t fileHeader;
 
@@ -101,6 +104,7 @@ int main(int argc, char *argv[])
         ,{"passcode",       required_argument,  0,      'p'}
         ,{"encrypt",        no_argument,        0,      'e'}
         ,{"decrypt",        no_argument,        0,      'd'}
+        ,{"quiet",          no_argument,        0,      'q'}
         ,{"help",           no_argument,        0,      'h'}
         ,{0,0,0,0}
     };
@@ -109,7 +113,7 @@ int main(int argc, char *argv[])
     {
         int optionIndex = 0;
 
-        opt = getopt_long(argc, argv, "i:o:O:p:edh?", longOptions, &optionIndex);
+        opt = getopt_long(argc, argv, "i:o:O:p:edqh?", longOptions, &optionIndex);
 
         if (-1 == opt)
             break;
@@ -133,6 +137,9 @@ int main(int argc, char *argv[])
                 break;
             case 'd':
                 decryptFlag = true;
+                break;
+            case 'q':
+                quietFlag = true;
                 break;
             case 'h':
             case '?':
@@ -251,7 +258,10 @@ int main(int argc, char *argv[])
             return -1;
         }
         AES_CBC_decrypt_buffer(&aesCtx1, (uint8_t *)(&fileHeader), blocklen);
-        printf("Output file %ld bytes\n", fileHeader.fileSize);
+        if (false == quietFlag)
+        {
+            printf("Output file %ld bytes\n", fileHeader.fileSize);
+        }
     }
 
     while ((n = fread(pBuf, sizeof(uint8_t), blocklen, fpIn)) > 0)
@@ -281,11 +291,13 @@ int main(int argc, char *argv[])
 
     t2 = myclock();
 
-    printf("%s time: %ld us\n"
-        , (encryptFlag) ? "Encrypt" : "Decrypt"
-        , (t2-t1)
-        );
-
+    if (false == quietFlag)
+    {
+        printf("%s time: %ld us\n"
+            , (encryptFlag) ? "Encrypt" : "Decrypt"
+            , (t2-t1)
+            );
+    }
     closeFiles(fpIn, fpOut);
     free (pBuf);
 
